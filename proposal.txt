@@ -1,0 +1,23 @@
+Movie dataset: https://www.kaggle.com/tmdb/tmdb-movie-metadata
+
+Dataset description:
+Dataset contains description on 5000 movies on cast, crew and metadata mostly in the text format
+
+Define the problem: ?
+
+Goal: make graph with nodes which are movies, weighed edges => extracted similarity factors 
+
+Steps:
+1, Clean the data? -> As the data is mostly in the string format, we need functions to be able to calclulate matrices reprezenting overlap in features 
+2, combine feature matrices into distance matrix
+3, convert distance matrix weight matrix and visualize it 
+4, drop edgde / spacify the wight matrix
+5, study network properties: degree distribution,...
+6, visualize the graph using PCA
+7, visualize graph using Eigendecomposition of the graph Laplacian
+8, Cluster movies based on selected preference
+9, go to 2 and repean until 8 for different preference
+10, extract 1 best recommendation from each movie to another (based to similarity matrix) and use it create directed disconnected graphs reprezenting movies groups => Generate second level weigh matrix. Second level laplacian is generated the from weight matrix taking only the 1 nearest neighbourg.
+11, visualize the largest component of second level matrix to get the 'best representative per cathegory'
+12, try to see whether Laplacian classification is more precice than a simple ML alghorithm.  
+13, random walk on first level graph is suggestion generator 
