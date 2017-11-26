@@ -1,0 +1,123 @@
+
+\documentclass[12pt,a4paper]{report}
+\setlength\textwidth{155mm}
+\setlength\textheight{227mm}
+\setlength\oddsidemargin{10mm}
+\setlength\evensidemargin{10mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{10mm}
+\setlength\headheight{0mm}
+
+\let\openright=\clearpage
+ \usepackage{setspace} 
+ \usepackage{multirow}
+ \usepackage{booktabs}
+ \usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{mathrsfs}
+
+\usepackage[cp1250]{inputenc}
+
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{indentfirst}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{lineno}
+\usepackage{epstopdf}
+\usepackage[toc,page]{appendix}
+\AtBeginDocument{
+\hypersetup{pdftitle={Data Commentary: Latest Results in Dark Matter Searches}}
+\hypersetup{pdfauthor={Vladimír Macko}}
+}
+\RequirePackage{hyperref}
+
+\def\chapwithtoc#1{
+\addcontentsline{toc}{chapter}{#1}
+}
+
+\begin{document}
+ %\onehalfspacing
+
+\lefthyphenmin=1
+\righthyphenmin=1
+
+\pagestyle{empty}
+\begin{center}
+
+
+Network Tour of Data Science
+
+\medskip
+
+
+%\vfill
+
+
+
+\vspace{5mm}
+
+{\LARGE\bfseries Spectral analysis of 5000 movies network}
+
+
+\vspace{5mm}
+
+{\large Macko Vladimir, Novakovic Milica, Pavu{\'e} Cl{\'e}ment, Roussaky Mehdi}
+\\Lausanne 2017
+\vspace{5mm}
+
+%\vfill
+\end{center}
+ \linenumbers \textbf{Goal:}\\ Analysis of the graph representing a network of movies and their relations using  using descriptions of 5000 selected movies. 
+
+\vspace{5mm}
+
+\noindent \textbf{Data description:}\\ The studied \textit{TMDB 5000 Movie Dataset} contains information about 5000 selected movies provided by users and reviewers from \textit{The Movie Database (TMDb)}.  Namely, each of the selected movies has the following attributes: \textit{budget, genres, homepage, id, keywords, original language, original title, overview, popularity, production companies, production coutries, release data, revenue} and personnel aspects of \textit{cast} and \textit{crew} members listing their names, genders and role or contribution to the movie production and other details. The majority of the data is in the text format. Dataset is available at  \href{<https://www.kaggle.com/tmdb/tmdb-movie-metadata/data>}{Kaggle}.
+\vspace{5mm}
+
+\vspace{5mm}
+\noindent \textbf{Project description:}
+The aim is to create a graph in which nodes represent movies and edges represent similarity between the movies they are connecting. Construction of edges and induced impact on below-described results will be examined. Since movie attributes are not numerical, it is necessary to calculate \textit{overlap} matrix for each feature separately using a feature-specific \textit{overlap} calculating function which will be developed. Generated series of \textit{overlap} matrices will be combined into one single weight matrix. However, the choice of combining method is arbitrary. Therefore, several examples of combining method will be considered. Once the graph is created, e.g. the weight matrix is established, it will be sparced using \textit{k-nearest neighbors} and Laplacian matrix and its corresponding eigendecomposition will be calculated. The constructed graph will be visualized using PCA and using Laplacian eigendecomposition in order to observe \textit{clusters of similarity} in terms of genres, popularity etc. Furthermore, studying connectivity of the graph and degrees of nodes it is possible to estimate how \textit{mainstream} a movie is. Also, a study of choice of a \textit{category representative} may be conducted choosing a movie which represents the cluster in the best way. For example, if \textit{k-nearest neighbors} method is utilized with \textit{k} equal to 1, we can obtain directed disconnected graph with clusters of movies, and the node to which the most of the edges oriented point, is appointed as a \textit{category representative}. Using a \textit{category representative} allows a viewer to get an impression on entire category based on watching only a single movie. 
+
+
+
+
+\begin{tabular}{rl}
+
+\noalign{\vspace{2mm}}
+\noalign{\vspace{2mm}}
+
+\end{tabular}
+
+
+
+
+
+
+
+\newpage
+
+
+\newpage
+
+\openright
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+
+\fancyhead[LE,RO]{ \rightmark}
+
+\fancyfoot[C]{\thepage}
+
+\setcounter{page}{1}
+
+
+
+\newpage
+
+\newpage
+
+\openright
+\end{document}
