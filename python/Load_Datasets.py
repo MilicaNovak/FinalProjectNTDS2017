@@ -88,15 +88,6 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
             for key in JSONunit:
                 JSONkeys.append(key)
             return JSONkeys   
-    
-   
-        def Accesor(bucket, locator):
-            ##input: values to be read safely, index value in list
-            ##output: value (if exists), otherwise nan
-            try:
-                return bucket[locator]
-            except IndexError or KeyError:
-                return pd.np.nan
         #allowing for changes of passed datased
         dataframe.is_copy = False 
         #reading JSON format and columns
