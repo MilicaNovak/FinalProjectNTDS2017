@@ -44,13 +44,16 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
     def JSONtoKeyList(JSONentry,key):
         ##input:json entry and string key to identify what should be read
         ##output:string list which can be converted to an array
-        
+      
+            
         INNERentries = []
         for InnerEntry in JSONentry:
+            #if key =='id':
+                #print(InnerEntry)
             INNERentries.append(InnerEntry[key])
         
         if len(INNERentries)>0:
-            if key =='gender':
+            if key =='gender' or key=='id':
                 outcome=''
                 for entry in INNERentries:
                     outcome = outcome+str(entry)+','
@@ -66,6 +69,10 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
         ##input: entry (one line) from JSON one of JSON columns
         ##output: strings of entries separated by commas
         return JSONtoKeyList(JSONentry,'name')
+    def JSONtoIDList(JSONentry):
+        ##input: entry (one line) from JSON one of JSON columns
+        ##output: strings of entries separated by commas
+        return JSONtoKeyList(JSONentry,'id')
     
     def JSONtoGenderList(JSONentry):
         return JSONtoKeyList(JSONentry,'gender')
@@ -93,8 +100,13 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
         #reading JSON format and columns
         dataframe,JSONcolumns = Transform_LoadJSON(dataframe)
         #transforming JSON columns to text columns
+        movies = pd.DataFrame()
         for column in JSONcolumns:
+            
+            if not (column=='production_countries' or column=='spoken_languages'):
+                dataframe[column+'_id'] =dataframe[column].apply(JSONtoIDList)
             dataframe[column] =dataframe[column].apply(JSONtoNameList)
+
         return dataframe
 
     #Loading movies from file to dataframe
@@ -115,8 +127,10 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
         credits = pd.DataFrame()
         credits['title']           = df_credits[0]['title']
         credits['actors']          = df_credits[0]['cast'].apply(JSONtoNameList)
+        credits['actors_id']       = df_credits[0]['cast'].apply(JSONtoIDList)
         credits['actor_gender']    = df_credits[0]['cast'].apply(JSONtoGenderList)
         credits['crew_names']      = df_credits[0]['crew'].apply(JSONtoNameList)
+        credits['crew_names_id']      = df_credits[0]['crew'].apply(JSONtoIDList)
         credits['crew_jobs']       = df_credits[0]['crew'].apply(JSONtoJobsList)
         credits['crew_departments']= df_credits[0]['crew'].apply(JSONtoDepsList)
         return credits
@@ -124,12 +138,15 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
     #assuring that both dataset exists
     assert InputFilesFound(FileAddress_movies),  "Movies  input file not found"
     assert InputFilesFound(FileAddress_credits), "Credits input file not found"
-    
+   
+    Final_dataset=Load_movies(FileAddress_movies)
+    Final_dataset.set_index('title', inplace=True)
+   
+   
     Credentials = Load_credits(FileAddress_credits)
     Credentials.set_index('title', inplace=True)
 
-    Final_dataset=Load_movies(FileAddress_movies)
-    Final_dataset.set_index('title', inplace=True)
+
 
     Final_dataset=Final_dataset.join(Credentials)
     #returning final dataset
