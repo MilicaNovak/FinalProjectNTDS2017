@@ -3,6 +3,7 @@
 ### JupyterNotebook ###
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+*/.csv/*
 
 # Remove previous ipynb_checkpoints
 #   git rm -r .ipynb_checkpoints/
@@ -35,3 +36,4 @@ Temporary Items
 .apdisk
 
 # End of https://www.gitignore.io/api/macos,jupyternotebook
+*.csv
