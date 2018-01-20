@@ -145,9 +145,10 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
    
     Credentials = Load_credits(FileAddress_credits)
     Credentials.set_index('title', inplace=True)
-
+   
 
 
     Final_dataset=Final_dataset.join(Credentials)
+    Final_dataset['primary_genre'] = Final_dataset["genres"].apply(lambda x: x.split(",")[0])
     #returning final dataset
     return Final_dataset
