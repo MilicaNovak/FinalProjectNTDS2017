@@ -130,10 +130,19 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
         credits['actors_id']       = df_credits[0]['cast'].apply(JSONtoIDList)
         credits['actor_gender']    = df_credits[0]['cast'].apply(JSONtoGenderList)
         credits['crew_names']      = df_credits[0]['crew'].apply(JSONtoNameList)
-        credits['crew_names_id']      = df_credits[0]['crew'].apply(JSONtoIDList)
+        credits['crew_names_id']   = df_credits[0]['crew'].apply(JSONtoIDList)
         credits['crew_jobs']       = df_credits[0]['crew'].apply(JSONtoJobsList)
         credits['crew_departments']= df_credits[0]['crew'].apply(JSONtoDepsList)
         return credits
+    
+    N=0
+    def Get_primes(entries):
+        INNERentries = entries.split(",")[:N]
+        outcome=''
+        for entry in INNERentries:
+            outcome = outcome+str(entry)+','
+        outcome =outcome[:len(outcome)-1]     
+        return outcome
     
     #assuring that both dataset exists
     assert InputFilesFound(FileAddress_movies),  "Movies  input file not found"
@@ -149,6 +158,14 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
 
 
     Final_dataset=Final_dataset.join(Credentials)
-    Final_dataset['primary_genre'] = Final_dataset["genres"].apply(lambda x: x.split(",")[0])
+    Final_dataset['primary_genre']                 = Final_dataset["genres"].apply(lambda x: x.split(",")[0])
+    Final_dataset['primary_production_company']    = Final_dataset["production_companies"].apply(lambda x: x.split(",")[0])
+    N=3
+    Final_dataset['prime_actors']                  = Final_dataset["actors"].apply(Get_primes)
+    N=4 
+    Final_dataset['prime_crew_names']              = Final_dataset["crew_names"].apply(Get_primes)
+    N=10    
+    Final_dataset['prime_keywords']                = Final_dataset["keywords"].apply(Get_primes)
+    
     #returning final dataset
     return Final_dataset
