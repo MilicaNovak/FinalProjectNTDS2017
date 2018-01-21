@@ -59,5 +59,5 @@ def ProcessCategorical(Movies,feature):
     myMovies = Movies
     Frame=TransformEntrys(Movies)
     Frame.to_csv("../Datasets/"+str(feature)+".csv")
-    print(Frame) 
+    print("Category processed") 
     return Frame
