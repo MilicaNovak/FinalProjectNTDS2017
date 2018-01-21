@@ -2,7 +2,7 @@ import sys, os, copy
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-%matplotlib inline
+#%matplotlib inline
 def GetWeights(distances,NEIGHBORS):
     
     kernel_width = distances.mean()

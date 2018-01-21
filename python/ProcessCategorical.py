@@ -1,15 +1,15 @@
+import sys, os, copy
+import numpy as np
+import pandas as pd
+
 #from multiprocessing import Pool
 import multiprocessing
 from multiprocessing import Pool, cpu_count
 import functools
 
-import sys, os, copy
-import numpy as np
-import pandas as pd
-
-##warning global viariables in use
+# !WARNING global viariables in use
 Entries = 'blah'
-Movies  = pd.DataFrame()
+myMovies=  pd.DataFrame()
 
 def GetSingleEntryFrame(Comparator):
     def Transformer(Entrys):
@@ -18,7 +18,7 @@ def GetSingleEntryFrame(Comparator):
                 return 1
         return 0
     SingleEntryFrame = pd.DataFrame()
-    SingleEntryFrame[Comparator]          = Movies[Entries].apply(Transformer)
+    SingleEntryFrame[Comparator]          = myMovies[Entries].apply(Transformer)
     Treshold = 2
     if Entries == 'keywords' or Entries == 'production_companies':
         Treshold == 2
@@ -32,7 +32,7 @@ def join_dfs(ldf, rdf):
 def applyParallel(df, func):
     multiprocessing
     with Pool(cpu_count()) as p:  
-        ret_list = p.map(func, [Comparator for Comparator in GetEntryList()])
+        ret_list = p.map(func, [Comparator for Comparator in GetEntryList(df)])
      
     print("Merging Started")
     Unified = pd.DataFrame()
@@ -40,7 +40,7 @@ def applyParallel(df, func):
         Unified[df.columns] = df[df.columns]
     return Unified
 
-def GetEntryList():
+def GetEntryList(Movies):
     AllEntrys=""
     for Entrys in Movies[Entries]:
         AllEntrys+=Entrys
@@ -48,14 +48,16 @@ def GetEntryList():
     return EntryList
 
 def TransformEntrys(Movies):
+    
     EntrysFrame = applyParallel(Movies,GetSingleEntryFrame)
     return EntrysFrame 
 
-def ProcessCategorical(feature, df):
+def ProcessCategorical(Movies,feature):
     global Entries 
-    global Movies
-    Movies = df
     Entries = feature
+    global myMovies
+    myMovies = Movies
     Frame=TransformEntrys(Movies)
     Frame.to_csv("../Datasets/"+str(feature)+".csv")
     print(Frame) 
+    return Frame
