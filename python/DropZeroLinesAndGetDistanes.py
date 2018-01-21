@@ -29,4 +29,4 @@ def DropZeroLinesAndGetDistanes(Frames):
     for Frame in newFrames:
         all_distances.append(np.nan_to_num(scipy.spatial.distance.squareform(scipy.spatial.distance.pdist(Frame, metric='cosine'))))   
     
-    return all_distances
+    return all_distances, list(DropLines), newFrames
