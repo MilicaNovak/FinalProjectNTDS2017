@@ -45,7 +45,7 @@ def get_keywords(film):
         kw = kw.split(",")
     return kw
 
-def vote_ratio(x):
+def vote_ratio(x,costs):
     vote_x = Movies.iloc[x]['vote_average']
     for j in range(0,Movies.shape[0]):
         vote_j = Movies.iloc[j]['vote_average']
@@ -73,7 +73,7 @@ if __name__ == '__main__':
         
         costs = costs + costs.T
         
-        r = list(tqdm(p.imap(vote_ratio, range(Movies.shape[0])), total=Movies.shape[0]))
+        r = list(tqdm(p.imap(vote_ratio, [range(Movies.shape[0],costs)]), total=Movies.shape[0]))
         costs = np.array(r)
         
         np.savez_compressed("../Datasets/costs_parallelized.npz", costs, costs = costs)
