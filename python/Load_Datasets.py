@@ -160,11 +160,11 @@ def Load_Datasets(FileAddress_movies,FileAddress_credits):
     Final_dataset=Final_dataset.join(Credentials)
     Final_dataset['primary_genre']                 = Final_dataset["genres"].apply(lambda x: x.split(",")[0])
     Final_dataset['primary_production_company']    = Final_dataset["production_companies"].apply(lambda x: x.split(",")[0])
-    N=10
+    N=15
     Final_dataset['prime_actors']                  = Final_dataset["actors"].apply(Get_primes)
-    N=3
+    N=6
     Final_dataset['prime_crew_names']              = Final_dataset["crew_names"].apply(Get_primes)
-    N=15   
+    N=20 
     Final_dataset['prime_keywords']                = Final_dataset["keywords"].apply(Get_primes)
     
     #returning final dataset
