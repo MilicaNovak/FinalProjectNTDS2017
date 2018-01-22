@@ -4,7 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-usefull_columns = ['genres','keywords','popularity']
+usefull_columns = ['genres','keywords','vote_average']
 Movies = pd.read_csv("../Datasets/Transformed.csv",usecols=usefull_columns)
 
 #Constant definition
@@ -35,18 +35,18 @@ def get_keywords(film):
 """Define the cost between the film given in index and the others one."""
 costs = np.zeros([Movies.shape[0],Movies.shape[0]])
 
+Movies = Movies.loc[Movies['vote_average'] > 0]
 for i in tqdm(range(0,Movies.shape[0])):
     current_film = Movies.iloc[i]
     genres_current = get_genres(current_film)
     kw_current = get_keywords(current_film)
-    popularity_current = current_film['popularity']
-    
+    vote_current = current_film['vote_average']
     for j in range(i,Movies.shape[0]):
         cost = 0
         
         b_film = Movies.iloc[j]
         genres_b = get_genres(b_film)
-        popularity_b = b_film['popularity']
+        vote_b = b_film['vote_average']
         #First we only select the first genre to determine the similarity because it's more important that the other genre.
         if len(genres_current) > 0  & len(genres_b) > 0:
             if (genres_current[0] == genres_b[0]):
@@ -63,12 +63,13 @@ for i in tqdm(range(0,Movies.shape[0])):
         
         #impossible here because we ignore to much popularity
         #cost = (cost * popularity_b/100) / (popularity_current/100)
-        costs[i,j] = cost
-        costs[j,i] = cost
+        if vote_current == 0:
+            costs[i,j] = cost
+        else:
+            costs[i,j] = cost + vote_b / vote_current
+        if vote_b == 0:
+            costs[j,i] = cost
+        else:
+            costs[j,i] = cost + vote_current / vote_b
 
-#Normalize and the remove the one on the diagonal to avoid self-looping.
-for i in range(costs.shape[0]):
-    costs[i] = costs[i] / np.max(costs[i])
-    costs[i,i] = 0
-
-np.savez_compressed("../../Datasets/costs.npz", costs, costs = costs)
+np.savez_compressed("../Datasets/costs_2.npz", costs, costs = costs)
