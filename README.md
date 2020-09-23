@@ -1,6 +1,6 @@
 # EE-558 A Network Tour of Data Science
 
-This repo contains project from the EPFL course on graphs, [EE-558 A Network Tour of Data Science][course_link[
+This repo contains project from the EPFL course on graphs, [EE-558 A Network Tour of Data Science][course_link]
 
 Dataset description:
 We proposed effective Movie Recommender System.
